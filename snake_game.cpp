@@ -1,7 +1,7 @@
 /*
-В этом коде программы представлена простая реализация игры «Змейка». 
+В этом коде программы представлена простая реализация игры «Змейка».
 Игрок управляет змейкой, используя клавиши W (вверх), A (влево), S (вниз) и D (вправо), и должен съесть как можно больше фруктов,
-чтобы увеличить свой счет. Если змейка ударяется об стену или свой собственный хвост, игра заканчивается. 
+чтобы увеличить свой счет. Если змейка ударяется об стену или свой собственный хвост, игра заканчивается.
 Программа также добавляет небольшую задержку между обновлениями экрана, чтобы сделать игру более плавной.
 
 */
@@ -9,16 +9,18 @@
 #include <iostream>
 #include <conio.h>
 #include <windows.h>
-//#include <random>
+#include <random>
+
 using namespace std;
 
-const int width = 20;
-const int height = 20;
+const int width = 13;
+const int height = 13;
 int x, y, fruitX, fruitY, score;
 int tailX[100], tailY[100];
 int nTail;
 enum eDirection { STOP = 0, LEFT, RIGHT, UP, DOWN };
 eDirection dir;
+bool GameOver = false;
 
 void Setup()
 {
@@ -32,6 +34,7 @@ void Setup()
 
 void Draw()
 {
+    //system("pause");
     system("cls"); // использование команды cls для очистки экрана
     cout << "Score: " << score << endl;
     for (int i = 0; i < width + 2; i++)
@@ -131,12 +134,14 @@ void Logic()
     }
     if (x >= width) x = 0; else if (x < 0) x = width - 1;
     if (y >= height) y = 0; else if (y < 0) y = height - 1;
-    /*
+    
     for (int i = 0; i < nTail; i++)
         if (tailX[i] == x && tailY[i] == y)
-            if ('WASD' [rand() % 4] != dir)
-                dir = STOP;
-    */
+        {
+            GameOver = true;
+        }
+                
+    
     if (x == fruitX && y == fruitY)
     {
         score += 10;
@@ -149,12 +154,12 @@ void Logic()
 int main()
 {
     Setup();
-    while (dir != STOP)
+    while (!GameOver)//(dir != STOP)
     {
         Draw();
         Input();
         Logic();
-        Sleep(500); // добавить чуть-чуть задержки
+        Sleep(240); // добавить чуть-чуть задержки
     }
     return 0;
 }
